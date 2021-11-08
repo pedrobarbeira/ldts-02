@@ -7,9 +7,9 @@ import com.googlecode.lanterna.terminal.Terminal;
 
 import java.io.IOException;
 
-public class Application {
-    public static void main(String[] args) {
-        Screen screen = null;
+public class Game {
+    Screen screen;
+    public Game(){
         try {
             TerminalSize terminalSize = new TerminalSize(40, 20);
             DefaultTerminalFactory terminalFactory =
@@ -30,4 +30,3 @@ public class Application {
 
     }
 }
-

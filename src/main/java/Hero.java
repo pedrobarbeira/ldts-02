@@ -7,11 +7,10 @@ import com.googlecode.lanterna.screen.Screen;
 
 import java.io.IOException;
 
-public class Hero {
-    Position position;
+public class Hero extends Element{
 
     public Hero(int x, int y){
-        position = new Position(x, y);
+        super(x, y);
     }
 
     public int getX() {

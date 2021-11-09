@@ -10,6 +10,12 @@ public class Hero {
         position = new Position(x, y);
     }
 
+    public int getX() {
+        return position.getX();}
+
+    public int getY(){
+        return position.getY();}
+
     public Position moveUp(){
         return new Position(position.getX(), position.getY()-1);}
     public Position moveDown(){
@@ -19,15 +25,7 @@ public class Hero {
     public Position moveRight(){
         return new Position(position.getX()+1, position.getY());}
 
-    public void draw(Screen screen){
-        try {
-            screen.clear();
-            screen.setCharacter(this.position.getX(), this.position.getY(), TextCharacter.fromCharacter('X')[0]);
-            screen.refresh();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+
 
     public void setPosition(Position position){
         this.position = position;

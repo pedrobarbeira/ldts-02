@@ -1,5 +1,6 @@
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextCharacter;
+import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.screen.Screen;
@@ -11,11 +12,12 @@ import java.io.IOException;
 
 public class Game {
     private Screen screen;
-    Hero hero;
+    Arena arena;
+    TextGraphics graphics;
 
     public Game() {
         try {
-            hero = new Hero(10, 10);
+            arena = new Arena(20, 10);
             TerminalSize terminalSize = new TerminalSize(40, 20);
             DefaultTerminalFactory terminalFactory =
                     new DefaultTerminalFactory().setInitialTerminalSize(terminalSize);
@@ -31,27 +33,21 @@ public class Game {
         }
     }
 
-    private void draw() {
-        try {
-            screen.clear();
-            hero.draw(screen);
-            screen.refresh();
-        }
-        catch(IOException e) {
-            e.printStackTrace();
-        }
+    private void draw() throws IOException {
+        screen.clear();
+        arena.draw(screen.newTextGraphics());
+        screen.refresh();
     }
 
     public void run() {
-        while(true) {
+        while (true) {
             draw();
             try {
                 KeyStroke key = screen.readInput();
-                if(key.getKeyType() == KeyType.Character && key.getCharacter() == 'q') {
+                if (key.getKeyType() == KeyType.Character && key.getCharacter() == 'q') {
                     screen.close();
                     break;
-                }
-                else if(key.getKeyType() == KeyType.EOF) break;
+                } else if (key.getKeyType() == KeyType.EOF) break;
                 else processKey(key);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -59,16 +55,7 @@ public class Game {
         }
     }
 
-    private void moveHero(Position position){
-        hero.setPosition(position);
-    }
-
     private void processKey(KeyStroke key) {
-        switch (key.getKeyType()) {
-            case ArrowUp: moveHero(hero.moveUp()); break;
-            case ArrowDown: moveHero(hero.moveDown()); break;
-            case ArrowRight: moveHero(hero.moveRight()); break;
-            case ArrowLeft: moveHero(hero.moveLeft()); break;
-        }
+        arena.processKey(key);
     }
 }

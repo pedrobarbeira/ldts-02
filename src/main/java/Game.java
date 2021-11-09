@@ -13,11 +13,10 @@ import java.io.IOException;
 public class Game {
     private Screen screen;
     Arena arena;
-    TextGraphics graphics;
 
     public Game() {
         try {
-            arena = new Arena(20, 10);
+            arena = new Arena(30, 15);
             TerminalSize terminalSize = new TerminalSize(40, 20);
             DefaultTerminalFactory terminalFactory =
                     new DefaultTerminalFactory().setInitialTerminalSize(terminalSize);
@@ -39,19 +38,16 @@ public class Game {
         screen.refresh();
     }
 
-    public void run() {
+    public void run() throws IOException {
         while (true) {
             draw();
-            try {
-                KeyStroke key = screen.readInput();
-                if (key.getKeyType() == KeyType.Character && key.getCharacter() == 'q') {
-                    screen.close();
-                    break;
-                } else if (key.getKeyType() == KeyType.EOF) break;
-                else processKey(key);
-            } catch (IOException e) {
-                e.printStackTrace();
+            KeyStroke key = screen.readInput();
+            if (key.getKeyType() == KeyType.Character && key.getCharacter() == 'q') {
+                screen.close();
+                break;
             }
+            else if (key.getKeyType() == KeyType.EOF) break;
+            else processKey(key);
         }
     }
 
